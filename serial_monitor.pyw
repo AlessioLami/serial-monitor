@@ -5,7 +5,14 @@ import serial.tools.list_ports
 import threading
 import time
 import queue
+import sys
+import os
 from datetime import datetime
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
 
 COLORS = {
     'bg': '#0c0c0c',
@@ -29,6 +36,11 @@ class SerialMonitor:
         self.root.geometry("950x650")
         self.root.configure(bg=COLORS['bg'])
         self.root.minsize(700, 400)
+
+        try:
+            self.root.iconbitmap(resource_path('icon.ico'))
+        except:
+            pass
 
         self.default_port = "COM3"
         self.default_baud = 115200
